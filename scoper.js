@@ -48,8 +48,16 @@ if(typeof exports !== "undefined") {
 function scoper(css, prefix) {
   var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
   var match = re.exec(css);
-  css = css.replace(re, prefix + " $1$2");
-  css = "\n" + css;
+  css = css.replace(re, function(g0, g1, g2) {
+
+    if (g1.match(/^\s*(@media|@keyframes|to|from)/)) {
+      return g1 + g2;
+    }
+
+    g1 = g1.replace(/^(\s*)/, "$1" + prefix + " ");
+
+    return g1 + g2;
+  });
   
   return css;
 }
