@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Scoper Demo</title>
+    <style>
+      h1 {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>This should be red</h1>
+    </section>
+    <section>
+      <h1>This should be pink</h1>
+      <style scoped>
+h1 {
+  color: pink;
+}
+      </style>
+    </section>
+    <section>
+      <h1>This should be purple</h1>
+      <style scoped>
+h1 {
+  color: purple;
+}
+      </style>
+    </section>
+    <script src="scoper.js"></script>
+  </body>
+</html>
