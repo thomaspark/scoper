@@ -15,7 +15,7 @@
 
     if (css) {
       var id = "scoper-" + i;
-      var selector = "#" + id;
+      var prefix = "#" + id;
 
       var wrapper = document.createElement("span");
       wrapper.id = id;
@@ -27,7 +27,7 @@
       wrapper.appendChild(parent);
       style.remove();
 
-      newcss = scoper(selector, css);
+      newcss = scoper(css, prefix);
       csses = csses + newcss;
     }
   }
@@ -45,8 +45,10 @@ if(typeof exports !== "undefined") {
     exports.scoper = scoper;
 }
 
-function scoper(selector, css) {
-  css = css.replace(/([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g, selector + " $1$2");
+function scoper(css, prefix) {
+  var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
+  var match = re.exec(css);
+  css = css.replace(re, prefix + " $1$2");
   css = "\n" + css;
   
   return css;
