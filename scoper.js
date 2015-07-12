@@ -41,6 +41,9 @@
   head.appendChild(newstyle);
 }());
 
+if(typeof exports !== "undefined") {
+    exports.scoper = scoper;
+}
 
 function scoper(selector, css) {
   css = css.replace(/([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g, selector + " $1$2");

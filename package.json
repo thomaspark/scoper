@@ -1,0 +1,29 @@
+{
+  "name": "scoper",
+  "version": "1.0.0",
+  "description": "A polyfill for scoped styles",
+  "main": "scoper.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "jsdom": "3.1.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomaspark/scoper.git"
+  },
+  "keywords": [
+    "scoped",
+    "css",
+    "polyfill"
+  ],
+  "author": "Thomas Park",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thomaspark/scoper/issues"
+  },
+  "homepage": "https://github.com/thomaspark/scoper#readme"
+}
