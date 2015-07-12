@@ -1,29 +1,50 @@
-(function($) {
-  $("document").ready(function() {
-    var styles = $("style[scoped]");
-    var csses = "";
+(function() {
+  var styles = document.querySelectorAll("style[scoped]");
 
-    if ((styles.length === 0) || ("scoped" in document.createElement("style"))) {
-      return;
+  if ((styles.length === 0) || ("scoped" in document.createElement("style"))) {
+    return;
+  }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var newstyle = document.createElement('style');
+  var csses = "";
+
+  for (var i = 0; i < styles.length; i++) {
+    var style = styles[i];
+    var css = style.innerHTML;
+
+    if (css) {
+      var id = "scoper-" + i;
+      var selector = "#" + id;
+
+      var wrapper = document.createElement("span");
+      wrapper.id = id;
+
+      var parent = style.parentNode;
+      var grandparent = parent.parentNode;
+
+      grandparent.replaceChild(wrapper, parent);
+      wrapper.appendChild(parent);
+      style.remove();
+
+      newcss = scoper(selector, css);
+      csses = csses + newcss;
     }
+  }
 
-    styles.each(function(index) {
-      var self = $(this);
-      var css = self.html();
+  if (newstyle.styleSheet){
+    newstyle.styleSheet.cssText = csses;
+  } else {
+    newstyle.appendChild(document.createTextNode(csses));
+  }
 
-      if (css) {
-        var id = "scoper-" + index;
-        var selector = "#" + id;
-        var wrapper = $("<span></span>").attr("id", id);
+  head.appendChild(newstyle);
+}());
 
-        self.parent().wrap(wrapper);
-        css = css.replace(/([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g, selector + " $1 $2");
-        css = "\n" + css;
-        csses = csses + css;
-      }
-    });
 
-    $("<style></style>").html(csses).appendTo("head");
-    styles.remove();
-  });
-})(jQuery);
+function scoper(selector, css) {
+  css = css.replace(/([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g, selector + " $1$2");
+  css = "\n" + css;
+  
+  return css;
+}
