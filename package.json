@@ -1,5 +1,5 @@
 {
-  "name": "scoper",
+  "name": "Scoper",
   "version": "1.0.0",
   "description": "A polyfill for scoped styles",
   "main": "scoper.js",
