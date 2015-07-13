@@ -1,4 +1,24 @@
+/* global exports */
+
+function scoper(css, prefix) {
+  var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
+  css = css.replace(re, function(g0, g1, g2) {
+
+    if (g1.match(/^\s*(@media|@keyframes|to|from)/)) {
+      return g1 + g2;
+    }
+
+    g1 = g1.replace(/^(\s*)/, "$1" + prefix + " ");
+
+    return g1 + g2;
+  });
+  
+  return css;
+}
+
 (function() {
+  "use strict";
+
   var styles = document.querySelectorAll("style[scoped]");
 
   if ((styles.length === 0) || ("scoped" in document.createElement("style"))) {
@@ -27,8 +47,7 @@
       wrapper.appendChild(parent);
       style.remove();
 
-      newcss = scoper(css, prefix);
-      csses = csses + newcss;
+      csses = csses + scoper(css, prefix);
     }
   }
 
@@ -41,23 +60,6 @@
   head.appendChild(newstyle);
 }());
 
-if(typeof exports !== "undefined") {
-    exports.scoper = scoper;
-}
-
-function scoper(css, prefix) {
-  var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
-  var match = re.exec(css);
-  css = css.replace(re, function(g0, g1, g2) {
-
-    if (g1.match(/^\s*(@media|@keyframes|to|from)/)) {
-      return g1 + g2;
-    }
-
-    g1 = g1.replace(/^(\s*)/, "$1" + prefix + " ");
-
-    return g1 + g2;
-  });
-  
-  return css;
+if (typeof exports !== "undefined") {
+  exports.scoper = scoper;
 }
