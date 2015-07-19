@@ -45,7 +45,7 @@ function scoper(css, prefix) {
 
       grandparent.replaceChild(wrapper, parent);
       wrapper.appendChild(parent);
-      style.remove();
+      style.parentNode.removeChild(style);
 
       csses = csses + scoper(css, prefix);
     }
