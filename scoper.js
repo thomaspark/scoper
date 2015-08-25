@@ -1,5 +1,12 @@
 /* global exports */
 
+function init() {
+  var style = document.createElement("style");
+  style.appendChild(document.createTextNode(""));
+  document.head.appendChild(style);
+  style.sheet.insertRule("body { display: none; }", 0);
+}
+
 function scoper(css, prefix) {
   var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
   css = css.replace(re, function(g0, g1, g2) {
@@ -16,17 +23,16 @@ function scoper(css, prefix) {
   return css;
 }
 
-(function() {
-  "use strict";
-
+function process() {
   var styles = document.querySelectorAll("style[scoped]");
 
-  if ((styles.length === 0) || ("scoped" in document.createElement("style"))) {
+  if (styles.length === 0) {
+    document.getElementsByTagName("body")[0].style.display = "block";
     return;
   }
 
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var newstyle = document.createElement('style');
+  var head = document.head || document.getElementsByTagName("head")[0];
+  var newstyle = document.createElement("style");
   var csses = "";
 
   for (var i = 0; i < styles.length; i++) {
@@ -58,6 +64,23 @@ function scoper(css, prefix) {
   }
 
   head.appendChild(newstyle);
+  document.getElementsByTagName("body")[0].style.display = "block";
+}
+
+(function() {
+  "use strict";
+
+  if ("scoped" in document.createElement("style")) {
+    return;
+  }
+  
+  init();
+
+  if (document.readyState !== "loading") {
+    process();
+  } else {
+    document.addEventListener("DOMContentLoaded", process);
+  }
 }());
 
 if (typeof exports !== "undefined") {
