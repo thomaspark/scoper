@@ -71,4 +71,27 @@ describe("Regex", function() {
     });
   });
 
+  describe(":scope pseudoclass", function () {
+    it("should replace :scope with #scoper-1 and child selector", function() {
+      var rule = ":scope {\n" +
+                 "  border: 1px solid blue;\n" +
+                 "}";
+      var expected = "#scoper-1 > * {\n" +
+                 "  border: 1px solid blue;\n" +
+                 "}";
+      var actual = scoper.scoper(rule, "#scoper-1");
+
+      var rule2 = "div:scope {\n" +
+                 "  border: 1px solid blue;\n" +
+                 "}";
+      var expected2 = "#scoper-1 > div {\n" +
+                 "  border: 1px solid blue;\n" +
+                 "}";
+      var actual2 = scoper.scoper(rule2, "#scoper-1");
+
+      assert.equal(expected, actual);
+      assert.equal(expected2, actual2);
+    });
+  });
+
 });
