@@ -34,7 +34,7 @@ function scoper(css, prefix) {
 }
 
 function process() {
-  var styles = document.querySelectorAll("style[scoped]");
+  var styles = document.body.querySelectorAll("style[scoped]");
 
   if (styles.length === 0) {
     document.getElementsByTagName("body")[0].style.visibility = "visible";
@@ -49,7 +49,7 @@ function process() {
     var style = styles[i];
     var css = style.innerHTML;
 
-    if (css) {
+    if (css && (style.parentElement.nodeName !== "BODY")) {
       var id = "scoper-" + i;
       var prefix = "#" + id;
 
