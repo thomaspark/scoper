@@ -71,6 +71,20 @@ describe("Regex", function() {
     });
   });
 
+  describe("Font faces", function () {
+    it("should not prepend @font-face with #scoper-1", function() {
+      var rule = "@font-face {\n" +
+               "  font-family: 'MyWebFont';\n" +
+               "  src: url('myfont.woff2') format('woff2');\n" +
+               "       url('myfont.woff') format('woff');\n" +
+               "}";
+      var expected = rule;
+      var actual = scoper.scoper(rule, "#scoper-1");
+
+      assert.equal(expected, actual);
+    });
+  });
+
   describe("Scope pseudoclasses", function () {
     it("should replace :scope with #scoper-1 > child", function() {
       var rule = ":scope {\n" +
