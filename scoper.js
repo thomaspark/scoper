@@ -1,6 +1,3 @@
-//https://github.com/thomaspark/scoper
-/* global exports */
-
 function init() {
   var style = document.createElement("style");
   style.appendChild(document.createTextNode(""));
