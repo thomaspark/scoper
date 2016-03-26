@@ -5,8 +5,8 @@ document = jsdom("<html/>");
 var scoper = require("../scoper.js");
 
 describe("Regex", function() {
-  describe("Simple rules", function () {
-    it("should prepend rule with #scoper-1", function() {
+  describe("Basic rules", function () {
+    it("should prepend selector with #scoper-1", function() {
       var rule = "h1 {\n" +
                  "  font-size: 4em;\n" +
                  "}";
@@ -18,7 +18,7 @@ describe("Regex", function() {
   });
 
   describe("Quoted values", function () {
-    it("should prepend rule with #scoper-1", function() {
+    it("should prepend selector with #scoper-1", function() {
       var rule = "h1 {\n" +
                  "  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n" +
                  "}";
@@ -37,7 +37,7 @@ describe("Regex", function() {
   });
 
   describe("Media queries", function () {
-    it("should prepend rule with #scoper-1", function() {
+    it("should prepend selector but not @media with #scoper-1", function() {
       var rule = "@media (max-width: 600px) {\n" +
                  "  h1 {\n" +
                  "    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n" +
@@ -55,7 +55,7 @@ describe("Regex", function() {
   });
 
   describe("CSS animations", function () {
-    it("should prepend rule with #scoper-1", function() {
+    it("should not prepend @keyframes with #scoper-1", function() {
       var rule = "@keyframes animation {\n" +
                "  from {\n" +
                "    background-color: red;\n" +
@@ -71,8 +71,8 @@ describe("Regex", function() {
     });
   });
 
-  describe(":scope pseudoclass", function () {
-    it("should replace :scope with #scoper-1 and child selector", function() {
+  describe("Scope pseudoclasses", function () {
+    it("should replace :scope with #scoper-1 > child", function() {
       var rule = ":scope {\n" +
                  "  border: 1px solid blue;\n" +
                  "}";
