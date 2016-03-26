@@ -1,3 +1,4 @@
+//https://github.com/thomaspark/scoper
 /* global exports */
 
 function init() {
@@ -8,10 +9,11 @@ function init() {
 }
 
 function scoper(css, prefix) {
+
   var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
   css = css.replace(re, function(g0, g1, g2) {
 
-    if (g1.match(/^\s*(@media|@keyframes|to|from)/)) {
+    if (g1.match(/^\s*(@media|@keyframes|to|from)|@font-face/)) {
       return g1 + g2;
     }
 
@@ -48,7 +50,7 @@ function process() {
   for (var i = 0; i < styles.length; i++) {
     var style = styles[i];
     var css = style.innerHTML;
-
+    
     if (css && (style.parentElement.nodeName !== "BODY")) {
       var id = "scoper-" + i;
       var prefix = "#" + id;
@@ -58,7 +60,6 @@ function process() {
 
       var parent = style.parentNode;
       var grandparent = parent.parentNode;
-
       grandparent.replaceChild(wrapper, parent);
       wrapper.appendChild(parent);
       style.parentNode.removeChild(style);
