@@ -1,7 +1,7 @@
 {
-  "name": "Scoper",
-  "version": "1.0.1",
-  "description": "A polyfill for scoped styles",
+  "name": "css-scoper",
+  "version": "1.0.2",
+  "description": "A polyfill for scoped HTML style elements",
   "main": "scoper.js",
   "dependencies": {},
   "devDependencies": {
