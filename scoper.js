@@ -80,7 +80,7 @@ function process() {
 (function() {
   "use strict";
 
-  if ("scoped" in document.createElement("style")) {
+  if (typeof document === "undefined" || ("scoped" in document.createElement("style"))) {
     return;
   }
   
