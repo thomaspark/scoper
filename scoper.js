@@ -11,7 +11,7 @@ function scoper(css, prefix) {
   var re = new RegExp("([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)", "g");
   css = css.replace(re, function(g0, g1, g2) {
 
-    if (g1.match(/^\s*(@media|@keyframes|to|from|@font-face)/)) {
+    if (g1.match(/^\s*(@media|@.*keyframes|to|from|@font-face|1?[0-9]?[0-9])/)) {
       return g1 + g2;
     }
 
