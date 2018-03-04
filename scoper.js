@@ -82,23 +82,24 @@ function reset() {
   for (var i = 0; i < styles.length; i++) {
     var style = styles[i];
     var wrapperElementId = style.getAttribute('data-scoped-style-for');
-
-    var css = style.innerHTML;
-    var resettedCss = css.replace("#"+wrapperElementId+" ", "");
-
     var wrapperEl = document.getElementById(wrapperElementId);
-    var parent = wrapperEl.parentNode;
-    var targetEl = wrapperEl.childNodes[0];
+    if(wrapperEl) { // Node may have disappeared, in that case nothing should happen
+      var css = style.innerHTML;
+      var resettedCss = css.replace("#"+wrapperElementId+" ", "");
 
-    parent.replaceChild(targetEl, wrapperEl);
-    var scopedStyle = document.createElement("style");
-    scopedStyle.setAttribute("scoped", "true");
-    if (scopedStyle.styleSheet){
+      var parent = wrapperEl.parentNode;
+      var targetEl = wrapperEl.childNodes[0];
+
+      parent.replaceChild(targetEl, wrapperEl);
+      var scopedStyle = document.createElement("style");
+      scopedStyle.setAttribute("scoped", "true");
+      if (scopedStyle.styleSheet){
         scopedStyle.styleSheet.cssText = resettedCss;
-    } else {
+      } else {
         scopedStyle.appendChild(document.createTextNode(resettedCss));
+      }
+      targetEl.appendChild(scopedStyle);
     }
-    targetEl.appendChild(scopedStyle);
 
     style.parentNode.removeChild(style);
   }
