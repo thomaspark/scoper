@@ -42,8 +42,6 @@ function process() {
   }
 
   var head = document.head || document.getElementsByTagName("head")[0];
-  var newstyle = document.createElement("style");
-  var csses = "";
 
   for (var i = 0; i < styles.length; i++) {
     var style = styles[i];
@@ -63,17 +61,19 @@ function process() {
       wrapper.appendChild(parent);
       style.parentNode.removeChild(style);
 
-      csses = csses + scoper(css, prefix);
+      var newstyle = document.createElement("style");
+      newstyle.setAttribute('data-scoped-style-for', id);
+      var csses = scoper(css, prefix);
+      if (newstyle.styleSheet){
+          newstyle.styleSheet.cssText = csses;
+      } else {
+          newstyle.appendChild(document.createTextNode(csses));
+      }
+
+      head.appendChild(newstyle);
     }
   }
 
-  if (newstyle.styleSheet){
-    newstyle.styleSheet.cssText = csses;
-  } else {
-    newstyle.appendChild(document.createTextNode(csses));
-  }
-
-  head.appendChild(newstyle);
   document.getElementsByTagName("body")[0].style.visibility = "visible";
 }
 
