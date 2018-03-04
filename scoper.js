@@ -1,6 +1,6 @@
 /* global exports */
 
-function init() {
+function scoperInit() {
   var style = document.createElement("style");
   style.appendChild(document.createTextNode(""));
   document.head.appendChild(style);
@@ -33,7 +33,7 @@ function scoper(css, prefix) {
   return css;
 }
 
-function process() {
+function scoperProcess() {
   var styles = document.body.querySelectorAll("style[scoped]");
 
   if (styles.length === 0) {
@@ -77,7 +77,7 @@ function process() {
   document.getElementsByTagName("body")[0].style.visibility = "visible";
 }
 
-function reset() {
+function scoperReset() {
   var styles = document.head.querySelectorAll("style[data-scoped-style-for]");
   for (var i = 0; i < styles.length; i++) {
     var style = styles[i];
@@ -105,9 +105,9 @@ function reset() {
   }
 }
 
-function restart() {
+function scoperRestart() {
   scoperReset();
-  process();
+  scoperProcess();
 }
 
 (function() {
@@ -117,12 +117,12 @@ function restart() {
     return;
   }
   
-  init();
+  scoperInit();
 
   if (document.readyState === "complete" || document.readyState === "loaded") {
-    process();
+    scoperProcess();
   } else {
-    document.addEventListener("DOMContentLoaded", process);
+    document.addEventListener("DOMContentLoaded", scoperProcess);
   }
 }());
 
