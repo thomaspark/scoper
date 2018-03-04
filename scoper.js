@@ -77,6 +77,38 @@ function process() {
   document.getElementsByTagName("body")[0].style.visibility = "visible";
 }
 
+function reset() {
+  var styles = document.head.querySelectorAll("style[data-scoped-style-for]");
+  for (var i = 0; i < styles.length; i++) {
+    var style = styles[i];
+    var wrapperElementId = style.getAttribute('data-scoped-style-for');
+
+    var css = style.innerHTML;
+    var resettedCss = css.replace("#"+wrapperElementId+" ", "");
+
+    var wrapperEl = document.getElementById(wrapperElementId);
+    var parent = wrapperEl.parentNode;
+    var targetEl = wrapperEl.childNodes[0];
+
+    parent.replaceChild(targetEl, wrapperEl);
+    var scopedStyle = document.createElement("style");
+    scopedStyle.setAttribute("scoped", "true");
+    if (scopedStyle.styleSheet){
+        scopedStyle.styleSheet.cssText = resettedCss;
+    } else {
+        scopedStyle.appendChild(document.createTextNode(resettedCss));
+    }
+    targetEl.appendChild(scopedStyle);
+
+    style.parentNode.removeChild(style);
+  }
+}
+
+function restart() {
+  scoperReset();
+  process();
+}
+
 (function() {
   "use strict";
 
