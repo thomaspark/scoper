@@ -2,6 +2,8 @@
 
 A polyfill for scoped HTML style elements.
 
+* [Demo - Codepen](https://codepen.io/amith_tiwari/pen/WNxwGPm)
+
 * [Demo](http://jsfiddle.net/thomaspark/rpe402LL/)
 
 # Quick Start
